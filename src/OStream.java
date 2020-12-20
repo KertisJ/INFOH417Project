@@ -10,7 +10,7 @@ public interface OStream {
     char EOL = '\n';
 
 
-    public class OStream1 implements OStream {
+    public class OStream1 implements OStream {  // Simple output mechanism
         private FileWriter f;
     
         public void create(String f_path) throws IOException {  
@@ -31,7 +31,7 @@ public interface OStream {
 
 
 
-    public class OStream2 implements OStream {
+    public class OStream2 implements OStream {  // Output mechanism with buffering mechanism
         private BufferedWriter bw;
     
         public void create(String f_path) throws IOException {  // https://www.programcreek.com/2011/03/fileoutputstream-vs-filewriter/
@@ -50,7 +50,7 @@ public interface OStream {
 
 
 
-    public class OStream3 implements OStream {
+    public class OStream3 implements OStream {  // Simple output with stream equipped with a size B buffer
         private BufferedWriter bw;
         private int B;
     
@@ -76,7 +76,7 @@ public interface OStream {
 
 
 
-    public class OStream4 implements OStream {
+    public class OStream4 implements OStream {  // Input with memory mapping
         private MappedByteBuffer Bb;
         private RandomAccessFile f;
         private FileChannel fChannel;

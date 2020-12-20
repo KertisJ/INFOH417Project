@@ -18,7 +18,7 @@ public interface IStream {
     char EOL = '\n';
 
 
-    public class IStream1 implements IStream {
+    public class IStream1 implements IStream {  // Simple input mechanism
         private RandomAccessFile f;                          // better than filereader or fileinputstream
     
         public void open(String f_path) throws FileNotFoundException {
@@ -52,7 +52,7 @@ public interface IStream {
 
 
 
-    public class IStream2 implements IStream {
+    public class IStream2 implements IStream {  // Input mechanism with buffering mechanism
         private RandomAccessFile f;
         private BufferedReader br;
     
@@ -83,7 +83,7 @@ public interface IStream {
 
 
 
-    public class IStream3 implements IStream {
+    public class IStream3 implements IStream {  // Simple input with stream equipped with a size B buffer
         private RandomAccessFile f;
         private BufferedReader br;
         private int B;
@@ -126,7 +126,7 @@ public interface IStream {
 
 
 
-    public class IStream4 implements IStream {
+    public class IStream4 implements IStream {  // Input with memory mapping
         private MappedByteBuffer Bb;
         private RandomAccessFile f;
         private long B, nextPos;
