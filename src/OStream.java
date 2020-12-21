@@ -9,6 +9,7 @@ public interface OStream {
     void close() throws IOException;
     char EOL = '\n';
 
+
     public class OStream1 implements OStream {  // Simple output mechanism
         private FileWriter f;
     
@@ -29,6 +30,7 @@ public interface OStream {
     }
 
 
+
     public class OStream2 implements OStream {  // Output mechanism with buffering mechanism
         private BufferedWriter bw;
     
@@ -45,6 +47,7 @@ public interface OStream {
             this.bw.close();
         }
     }
+
 
 
     public class OStream3 implements OStream {  // Simple output with stream equipped with a size B buffer
@@ -70,6 +73,7 @@ public interface OStream {
             bw.close();
         }
     }
+
 
 
     public class OStream4 implements OStream {  // Input with memory mapping
@@ -124,3 +128,4 @@ public interface OStream {
     }
 
 }
+

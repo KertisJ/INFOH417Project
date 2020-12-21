@@ -1,7 +1,13 @@
 import java.io.*;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
-
+/* 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+ */
 
 public interface IStream {
 
@@ -45,6 +51,7 @@ public interface IStream {
     }
 
 
+
     public class IStream2 implements IStream {  // Input mechanism with buffering mechanism
         private RandomAccessFile f;
         private BufferedReader br;
@@ -64,15 +71,20 @@ public interface IStream {
         }
     
         public boolean end_of_stream() throws IOException {
-            long currentPos = this.f.getFilePointer();
+            /**long currentPos = this.f.getFilePointer();
             String line = br.readLine();
             if (line != null) {
                 this.f.seek(currentPos);
                 return false;
             } else
-                return true;
+                return true;*/
+            this.br.mark(1);
+            int i = this.br.read();
+            this.br.reset();
+            return i == -1;
         }
     }
+
 
 
     public class IStream3 implements IStream {  // Simple input with stream equipped with a size B buffer
@@ -115,6 +127,7 @@ public interface IStream {
                 return true;
         }
     }
+
 
 
     public class IStream4 implements IStream {  // Input with memory mapping
@@ -169,3 +182,4 @@ public interface IStream {
     }
 
 }
+
