@@ -1,13 +1,11 @@
-import java.io.*;
+import java.io.RandomAccessFile;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
-/* 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.RandomAccessFile;
- */
+
 
 public interface IStream {
 
@@ -63,7 +61,7 @@ public interface IStream {
         }
     
         public String readln() throws IOException {
-            return br.readLine() + '\n';
+            return br.readLine() + EOL;
         }
     
         public void seek(long pos) throws IOException {
@@ -110,7 +108,7 @@ public interface IStream {
                 if (c != EOL)
                     b.append(c);
             } while (c != EOL);
-            return b.toString() + '\n';
+            return b.toString() + EOL;
         }
     
         public void seek(long pos) throws IOException {

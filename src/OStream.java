@@ -1,7 +1,6 @@
 import java.io.*;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
-import org.apache.commons.lang3.Validate;
 
 public interface OStream {
 

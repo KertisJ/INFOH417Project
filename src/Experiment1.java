@@ -1,5 +1,4 @@
 import java.io.IOException;
-import java.util.time.Duration;
 
 public class Experiment1 {          // Sequential reading
     

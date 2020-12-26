@@ -41,6 +41,7 @@ public class Experiment2 {
     }
 
     private int randjump1(String f, int j) throws IOException {
+        long startTime = System.currentTimeMillis();
         IStream.IStream1 iStream = new IStream.IStream1();
         iStream.open(f);
         int str_sum = 0;
@@ -53,11 +54,16 @@ public class Experiment2 {
             int l = iStream.readln().length();
             str_sum += l;
         }
-        System.out.println("Experience2 with input type " + iStream.toString().substring(iStream.toString().indexOf('$')+1, iStream.toString().indexOf('@')) + " on the file " + f + " with " + j + " number of jumps gives length " + str_sum);
+        long endTime = System.currentTimeMillis();
+        System.out.println("Experience2 with input type " + 
+            iStream.toString().substring(iStream.toString().indexOf('$')+1, iStream.toString().indexOf('@')) + 
+            " on the file " + f + " with " + j + " number of jumps gives length " + str_sum + 
+            " and that took " + (endTime - startTime) + " milliseconds");
         return str_sum;
     }
 
     private int randjump2(String f, int j) throws IOException {
+        long startTime = System.currentTimeMillis();
         IStream.IStream2 iStream = new IStream.IStream2();
         iStream.open(f);
         int str_sum = 0;
@@ -70,11 +76,16 @@ public class Experiment2 {
             int l = iStream.readln().length();
             str_sum += l;
         }
-        System.out.println("Experience2 with input type " + iStream.toString().substring(iStream.toString().indexOf('$')+1, iStream.toString().indexOf('@')) + " on the file " + f + " with " + j + " number of jumps gives length " + str_sum);
+        long endTime = System.currentTimeMillis();
+        System.out.println("Experience2 with input type " + 
+            iStream.toString().substring(iStream.toString().indexOf('$')+1, iStream.toString().indexOf('@')) + 
+            " on the file " + f + " with " + j + " number of jumps gives length " + str_sum + 
+            " and that took " + (endTime - startTime) + " milliseconds");
         return str_sum;
     }
 
     private int randjump3(String f, int j) throws IOException {
+        long startTime = System.currentTimeMillis();
         IStream.IStream3 iStream = new IStream.IStream3(B);
         iStream.open(f);
         int str_sum = 0;
@@ -87,11 +98,16 @@ public class Experiment2 {
             int l = iStream.readln().length();
             str_sum += l;
         }
-        System.out.println("Experience2 with input type " + iStream.toString().substring(iStream.toString().indexOf('$')+1, iStream.toString().indexOf('@')) + " on the file " + f + " with " + j + " number of jumps gives length " + str_sum);
+        long endTime = System.currentTimeMillis();
+        System.out.println("Experience2 with input type " + 
+            iStream.toString().substring(iStream.toString().indexOf('$')+1, iStream.toString().indexOf('@')) + 
+            " on the file " + f + " with " + j + " number of jumps gives length " + str_sum + 
+            " and that took " + (endTime - startTime) + " milliseconds");
         return str_sum;
     }
 
     private int randjump4(String f, int j) throws IOException {
+        long startTime = System.currentTimeMillis();
         IStream.IStream4 iStream = new IStream.IStream4(B);
         iStream.open(f);
         int str_sum = 0;
@@ -104,7 +120,11 @@ public class Experiment2 {
             int l = iStream.readln().length();
             str_sum += l;
         }
-        System.out.println("Experience2 with input type " + iStream.toString().substring(iStream.toString().indexOf('$')+1, iStream.toString().indexOf('@')) + " on the file " + f + " with " + j + " number of jumps gives length " + str_sum);
+        long endTime = System.currentTimeMillis();
+        System.out.println("Experience2 with input type " + 
+            iStream.toString().substring(iStream.toString().indexOf('$')+1, iStream.toString().indexOf('@')) + 
+            " on the file " + f + " with " + j + " number of jumps gives length " + str_sum + 
+            " and that took " + (endTime - startTime) + " milliseconds");
         return str_sum;
     }
 }

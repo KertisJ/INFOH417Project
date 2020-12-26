@@ -43,6 +43,7 @@ public class Experiment3 {      //Combined Read and Write
     private OStream output;
 
     private void rrmerge() throws IOException {
+        long startTime = System.currentTimeMillis();
         while (this.IList.size() > 0) {
             List<IStream> fullRead = new ArrayList<>();
         	for (int i = 0; i < this.IList.size(); i++) {
@@ -56,6 +57,8 @@ public class Experiment3 {      //Combined Read and Write
         	this.IList.removeAll(fullRead);
         }
         this.output.close();
+        long endTime = System.currentTimeMillis();
+        System.out.println("Experience3 took " + (endTime - startTime) + " milliseconds");
     }
 
     // none is buffered
