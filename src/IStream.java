@@ -32,6 +32,7 @@ public interface IStream {
                 c = (char) this.f.read();
                 b.append(c);
             } while (c != EOL);
+
             return b.toString();
         }
     
@@ -62,7 +63,7 @@ public interface IStream {
         }
     
         public String readln() throws IOException {
-            return br.readLine();
+            return br.readLine() + '\n';
         }
     
         public void seek(long pos) throws IOException {
@@ -109,7 +110,7 @@ public interface IStream {
                 if (c != EOL)
                     b.append(c);
             } while (c != EOL);
-            return b.toString();
+            return b.toString() + '\n';
         }
     
         public void seek(long pos) throws IOException {
@@ -118,6 +119,11 @@ public interface IStream {
         }
     
         public boolean end_of_stream() throws IOException {
+            this.br.mark(1);
+            int i = this.br.read();
+            this.br.reset();
+            return i == -1;
+            /** 
             long currentPos = this.f.getFilePointer();
             String line = br.readLine();
             if (line != null) {
@@ -125,6 +131,7 @@ public interface IStream {
                 return false;
             } else
                 return true;
+            */
         }
     }
 

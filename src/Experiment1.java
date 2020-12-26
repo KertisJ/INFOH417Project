@@ -1,60 +1,111 @@
 import java.io.IOException;
+import java.util.time.Duration;
 
 public class Experiment1 {          // Sequential reading
     
-    public void runExp1(int IType, String f, int B) throws IOException {
-        if (IType == 1 || IType == 2) {
-            lengthVersion1(IType, f);
-        } 
-        else if (IType == 3 || IType == 4){
-            if (B >= 0) {
-                lengthVersion2(IType, f, B);
-            } else {
-                throw new IllegalArgumentException("For this type of input stream, the size of the buffer must be passed as an argument, and greater than zero.");
-            }
-        }
-        else {
-            throw new IllegalArgumentException("Please enter a number between 1 and 4 for input streams.");
+    private int B ;
+
+    public void runExp1(int IType, String f, int Buf) throws IOException {
+        this.B = Buf;
+        switch (IType) {
+            case 1 :
+                length1(f);
+                break;
+            case 2 :
+                length2(f);
+                break;
+            case 3 :
+                if (B > 0) {
+                    length3(f);
+                } else {
+                    throw new IllegalArgumentException("For this type of input stream, the size of the buffer must be passed as an argument, and > 0.");
+                }
+                break;
+            case 4 :
+                if (B > 0) {
+                    length4(f);
+                } else {
+                    throw new IllegalArgumentException("For this type of input stream, the size of the buffer must be passed as an argument, and > 0.");
+                }
+            break;
+            default :
+                throw new IllegalArgumentException("Please enter a number between 1 and 4 for input streams.");
         }
     }
 
-
+    // Only if in the main class we call runExp1 without specifying the size of the buffer
+    // So especially for input stream mechanisms 1 and 2 "exp.runExp1(inputStreamMechanism, filePath)";
     public void runExp1(int IType, String f) throws IOException {
         runExp1(IType, f, 0);
     }
     
 
-    private int length(IStream iStream, String f) throws IOException {
+    private int length1(String f) throws IOException {
+        long startTime = System.currentTimeMillis();
+        IStream.IStream1 iStream = new IStream.IStream1(); 
         iStream.open(f);
         int str_sum = 0;
         while (!iStream.end_of_stream()) {
             int l = iStream.readln().length();
             str_sum += l;
         }
-        System.out.println("Experience1 with input type " + iStream.toString().substring(iStream.toString().indexOf('$')+1, iStream.toString().indexOf('@')) + " on the file " + f + " give length " + str_sum);
+        long endTime = System.currentTimeMillis();
+        System.out.println("Experience1 with input type " + 
+            iStream.toString().substring(iStream.toString().indexOf('$')+1, iStream.toString().indexOf('@')) + 
+            " on the file " + f + " give length " + str_sum + " and that took " + (endTime - startTime) + 
+            " milliseconds");
         return str_sum;
     }
 
-    
-    private int lengthVersion1(int InputType, String f) throws IOException {
-        switch (InputType) {
-            case 1:
-                return this.length(new IStream.IStream1(), f);
-            case 2:
-                return this.length(new IStream.IStream2(), f);
-            default:
-                throw new IllegalArgumentException("Please enter a number between 1 and 4 for input streams.");
+    private int length2(String f) throws IOException {
+        long startTime = System.currentTimeMillis();
+        IStream.IStream2 iStream = new IStream.IStream2(); 
+        iStream.open(f);
+        int str_sum = 0;
+        while (!iStream.end_of_stream()) {
+            int l = iStream.readln().length();
+            str_sum += l;
         }
+        long endTime = System.currentTimeMillis();
+        System.out.println("Experience1 with input type " + 
+            iStream.toString().substring(iStream.toString().indexOf('$')+1, iStream.toString().indexOf('@')) +
+             " on the file " + f + " give length " + str_sum + " and that took " + (endTime - startTime) + 
+             " milliseconds");
+        return str_sum;
     }
 
-    private int lengthVersion2(int InputType, String f, int B) throws IOException {
-        switch (InputType) {
-            case 3:
-                return this.length(new IStream.IStream3(B), f);
-            case 4:
-                return this.length(new IStream.IStream4(B), f);
-            default:
-                throw new IllegalArgumentException("Please enter a number between 1 and 4 for input streams.");
+    private int length3(String f) throws IOException {
+        long startTime = System.currentTimeMillis();
+        IStream.IStream3 iStream = new IStream.IStream3(B); 
+        iStream.open(f);
+        int str_sum = 0;
+        while (!iStream.end_of_stream()) {
+            int l = iStream.readln().length();
+            str_sum += l;
         }
+        long endTime = System.currentTimeMillis();
+        System.out.println("Experience1 with input type " + 
+            iStream.toString().substring(iStream.toString().indexOf('$')+1, iStream.toString().indexOf('@')) + 
+            " on the file " + f + " give length " + str_sum + " and that took " + (endTime - startTime) + 
+            " milliseconds");
+        return str_sum;
     }
+
+    private int length4(String f) throws IOException {
+        long startTime = System.currentTimeMillis();
+        IStream.IStream4 iStream = new IStream.IStream4(B); 
+        iStream.open(f);
+        int str_sum = 0;
+        while (!iStream.end_of_stream()) {
+            int l = iStream.readln().length();
+            str_sum += l;
+        }
+        long endTime = System.currentTimeMillis();
+        System.out.println("Experience1 with input type " + 
+            iStream.toString().substring(iStream.toString().indexOf('$')+1, iStream.toString().indexOf('@')) + 
+            " on the file " + f + " give length " + str_sum + " and that took " + (endTime - startTime) + 
+            " milliseconds");
+        return str_sum;
+    }
+    
 }

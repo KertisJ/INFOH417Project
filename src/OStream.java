@@ -1,6 +1,7 @@
 import java.io.*;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
+import org.apache.commons.lang3.Validate;
 
 public interface OStream {
 
@@ -19,16 +20,14 @@ public interface OStream {
     
         public void writeln(String str) throws IOException {    // https://beginnersbook.com/2013/12/java-string-tochararray-method-example/
             for (char c : str.toCharArray()) {                //converting c into sequence of characters and return an Array of chars
-                f.write(c);
+                f.write(c);  
             }
-            f.write(EOL);
         }
         
         public void close() throws IOException {
             f.close();
         }
     }
-
 
 
     public class OStream2 implements OStream {  // Output mechanism with buffering mechanism
@@ -47,7 +46,6 @@ public interface OStream {
             this.bw.close();
         }
     }
-
 
 
     public class OStream3 implements OStream {  // Simple output with stream equipped with a size B buffer
@@ -75,20 +73,23 @@ public interface OStream {
     }
 
 
-
     public class OStream4 implements OStream {  // Input with memory mapping
-        private MappedByteBuffer Bb;
+        private MappedByteBuffer mappedb;
         private RandomAccessFile f;
         private FileChannel fChannel;
         private int B;
         private int bCount;
+        private long position = 0;
     
         public OStream4(int bufferSize) {
             this.B = bufferSize;
         }
     
+        /**
         public void create(String f_path) throws IOException {      // https://howtodoinjava.com/java/nio/memory-mapped-files-mappedbytebuffer/
             this.f = new RandomAccessFile(f_path, "rw");
+            this.f.setLength(0);
+            this.fChannel = this.f.getChannel();
             this.bCount = 0;
             this.map();
         }
@@ -101,29 +102,101 @@ public interface OStream {
         }
     
         public void close() throws IOException {
-            this.Bb.force();
-            this.fChannel.truncate(this.bCount * this.B - this.Bb.remaining());
+            int len = this.bCount * this.B - this.mappedb.remaining();
+            //this.fChannel.map(FileChannel.MapMode.READ_WRITE, len, len);
+            this.fChannel.truncate(len);
+            //this.f.setLength(len);
+            this.mappedb.clear();
+            //System.out.println(this.f.length() + " and length " + len);
+            //this.fChannel.truncate(len);
             this.fChannel.close();
-            this.Bb.clear();
+            /**
+            long length = this.f.length() - 1;
+            do {
+                length -= 1;
+                this.f.seek(length);
+                char b = (char) this.f.read();
+            } while(length > len);
+            this.f.setLength(length+1);
+            */
+            /**
             this.f.close();
         }
     
         private void map() throws IOException {
-            this.f.setLength(0);
-            this.fChannel = this.f.getChannel();
-            this.Bb = this.fChannel.map(FileChannel.MapMode.READ_WRITE, this.bCount * this.B, this.B);
+            int position = this.bCount * this.B;
+            this.mappedb = this.fChannel.map(FileChannel.MapMode.READ_WRITE, position, this.B);
             this.bCount += 1;
         }
     
         private void putChar(char c) {
-            if (!this.Bb.hasRemaining()) {
+            if (!this.mappedb.hasRemaining()) {
                 try {
                     this.map();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-            this.Bb.put((byte) c);
+            this.mappedb.put((byte) c);
+        }
+        */
+
+
+
+        public void create(String filepath, boolean append) throws IOException {
+            this.f = new RandomAccessFile(new File(filepath), "rw");
+            this.fChannel = this.f.getChannel();
+    
+            if (append) {
+                this.position = this.fChannel.size();
+            } else {
+                this.fChannel.truncate(0);
+            }
+            
+            mappedb = (MappedByteBuffer) MappedByteBuffer.allocateDirect(this.B);
+            isOpened = true;
+        }  
+    
+        /**
+         * Write an integer to the stream.
+         * @param element Integer to write to the stream.
+         * @throws IOException
+         */
+        @Override
+        public void writeln(String line) throws IOException {
+            for (char c : line.toCharArray()) {
+
+                if (!this.mappedb.hasRemaining()) {
+                    try {
+                        MappedByteBuffer mb = this.fChannel.map(FileChannel.MapMode.READ_WRITE, this.position, this.B);
+                        mb.put(mappedb);
+                        mb.force();
+                        this.mappedb = (MappedByteBuffer) MappedByteBuffer.allocateDirect(B);
+                        this.position = this.position + this.B;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            putChar(EOL);
+            
+            mappedb.putchar(line);
+        }
+    
+        /**
+         * Close the stream.
+         * @throws IOException
+         */
+        @Override
+        public void close() throws IOException {
+            if (fileChannel != null) {
+                MappedByteBuffer mb = fChannel.map(MapMode.READ_WRITE, position, mappedBuffer.position());
+                mappedBuffer.compact();
+                mb.put(mappedBuffer);
+                mb.force();
+                fileChannel.close();
+                randomAccessFile.close();
+            }
         }
     }
 
