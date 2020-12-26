@@ -4,29 +4,25 @@ public class Experiment1 {          // Sequential reading
     
     private int B ;
 
-    public void runExp1(int IType, String f, int Buf) throws IOException {
+    public String runExp1(int IType, String f, int Buf) throws IOException {
         this.B = Buf;
         switch (IType) {
             case 1 :
-                length1(f);
-                break;
+                return length1(f);
             case 2 :
-                length2(f);
-                break;
+                return length2(f);
             case 3 :
                 if (B > 0) {
-                    length3(f);
+                    return length3(f);
                 } else {
                     throw new IllegalArgumentException("For this type of input stream, the size of the buffer must be passed as an argument, and > 0.");
                 }
-                break;
             case 4 :
                 if (B > 0) {
-                    length4(f);
+                    return length4(f);
                 } else {
                     throw new IllegalArgumentException("For this type of input stream, the size of the buffer must be passed as an argument, and > 0.");
                 }
-            break;
             default :
                 throw new IllegalArgumentException("Please enter a number between 1 and 4 for input streams.");
         }
@@ -34,12 +30,12 @@ public class Experiment1 {          // Sequential reading
 
     // Only if in the main class we call runExp1 without specifying the size of the buffer
     // So especially for input stream mechanisms 1 and 2 "exp.runExp1(inputStreamMechanism, filePath)";
-    public void runExp1(int IType, String f) throws IOException {
-        runExp1(IType, f, 0);
+    public String  runExp1(int IType, String f) throws IOException {
+        return runExp1(IType, f, 0);
     }
     
 
-    private int length1(String f) throws IOException {
+    private String length1(String f) throws IOException {
         long startTime = System.currentTimeMillis();
         IStream.IStream1 iStream = new IStream.IStream1(); 
         iStream.open(f);
@@ -49,14 +45,13 @@ public class Experiment1 {          // Sequential reading
             str_sum += l;
         }
         long endTime = System.currentTimeMillis();
-        System.out.println("Experience1 with input type " + 
+        return ("Experience1 with input type " + 
             iStream.toString().substring(iStream.toString().indexOf('$')+1, iStream.toString().indexOf('@')) + 
             " on the file " + f + " give length " + str_sum + " and that took " + (endTime - startTime) + 
-            " milliseconds");
-        return str_sum;
+            " milliseconds\n");
     }
 
-    private int length2(String f) throws IOException {
+    private String length2(String f) throws IOException {
         long startTime = System.currentTimeMillis();
         IStream.IStream2 iStream = new IStream.IStream2(); 
         iStream.open(f);
@@ -66,14 +61,13 @@ public class Experiment1 {          // Sequential reading
             str_sum += l;
         }
         long endTime = System.currentTimeMillis();
-        System.out.println("Experience1 with input type " + 
+        return ("Experience1 with input type " + 
             iStream.toString().substring(iStream.toString().indexOf('$')+1, iStream.toString().indexOf('@')) +
              " on the file " + f + " give length " + str_sum + " and that took " + (endTime - startTime) + 
-             " milliseconds");
-        return str_sum;
+             " milliseconds\n");
     }
 
-    private int length3(String f) throws IOException {
+    private String length3(String f) throws IOException {
         long startTime = System.currentTimeMillis();
         IStream.IStream3 iStream = new IStream.IStream3(B); 
         iStream.open(f);
@@ -83,14 +77,13 @@ public class Experiment1 {          // Sequential reading
             str_sum += l;
         }
         long endTime = System.currentTimeMillis();
-        System.out.println("Experience1 with input type " + 
+        return ("Experience1 with input type " + 
             iStream.toString().substring(iStream.toString().indexOf('$')+1, iStream.toString().indexOf('@')) + 
-            " on the file " + f + " give length " + str_sum + " and that took " + (endTime - startTime) + 
-            " milliseconds");
-        return str_sum;
+            " on the file " + f + " with buffer size B = " + B + ", give length " + str_sum + " and that took " + (endTime - startTime) + 
+            " milliseconds\n");
     }
 
-    private int length4(String f) throws IOException {
+    private String length4(String f) throws IOException {
         long startTime = System.currentTimeMillis();
         IStream.IStream4 iStream = new IStream.IStream4(B); 
         iStream.open(f);
@@ -100,11 +93,10 @@ public class Experiment1 {          // Sequential reading
             str_sum += l;
         }
         long endTime = System.currentTimeMillis();
-        System.out.println("Experience1 with input type " + 
+        return ("Experience1 with input type " + 
             iStream.toString().substring(iStream.toString().indexOf('$')+1, iStream.toString().indexOf('@')) + 
-            " on the file " + f + " give length " + str_sum + " and that took " + (endTime - startTime) + 
-            " milliseconds");
-        return str_sum;
+            " on the file " + f + " with buffer size B = " + B + ", give length " + str_sum + " and that took " + (endTime - startTime) + 
+            " milliseconds\n");
     }
     
 }

@@ -6,29 +6,25 @@ public class Experiment2 {
     private Random rand = new Random();
     private int B ;
 
-    public void runExp2(int IType, String f, int j, int Buf) throws IOException {
+    public String runExp2(int IType, String f, int j, int Buf) throws IOException {
         this.B = Buf;
         switch (IType) {
             case 1 :
-                randjump1(f, j);
-                break;
+                return randjump1(f, j);
             case 2 :
-                randjump2(f, j);
-                break;
+                return randjump2(f, j);
             case 3 :
                 if (B > 0) {
-                    randjump3(f, j);
+                    return randjump3(f, j);
                 } else {
                     throw new IllegalArgumentException("For this type of input stream, the size of the buffer must be passed as an argument, and > 0.");
                 }
-                break;
             case 4 :
                 if (B > 0) {
-                    randjump4(f, j);
+                    return randjump4(f, j);
                 } else {
                     throw new IllegalArgumentException("For this type of input stream, the size of the buffer must be passed as an argument, and > 0.");
                 }
-            break;
             default :
                 throw new IllegalArgumentException("Please enter a number between 1 and 4 for input streams.");
         }
@@ -36,11 +32,11 @@ public class Experiment2 {
 
     // Only if in the main class we call runExp2 without specifying the size of the buffer
     // So especially for input stream mechanisms 1 and 2 "exp.runExp2(inputStreamMechanism, filePath, numberOfJumps)";
-    public void runExp2(int IType, String f, int j) throws IOException {
-        runExp2(IType, f, j, 0);
+    public String runExp2(int IType, String f, int j) throws IOException {
+        return runExp2(IType, f, j, 0);
     }
 
-    private int randjump1(String f, int j) throws IOException {
+    private String randjump1(String f, int j) throws IOException {
         long startTime = System.currentTimeMillis();
         IStream.IStream1 iStream = new IStream.IStream1();
         iStream.open(f);
@@ -55,14 +51,13 @@ public class Experiment2 {
             str_sum += l;
         }
         long endTime = System.currentTimeMillis();
-        System.out.println("Experience2 with input type " + 
+        return ("Experience2 with input type " + 
             iStream.toString().substring(iStream.toString().indexOf('$')+1, iStream.toString().indexOf('@')) + 
             " on the file " + f + " with " + j + " number of jumps gives length " + str_sum + 
-            " and that took " + (endTime - startTime) + " milliseconds");
-        return str_sum;
+            " and that took " + (endTime - startTime) + " milliseconds\n");
     }
 
-    private int randjump2(String f, int j) throws IOException {
+    private String randjump2(String f, int j) throws IOException {
         long startTime = System.currentTimeMillis();
         IStream.IStream2 iStream = new IStream.IStream2();
         iStream.open(f);
@@ -77,14 +72,13 @@ public class Experiment2 {
             str_sum += l;
         }
         long endTime = System.currentTimeMillis();
-        System.out.println("Experience2 with input type " + 
+        return ("Experience2 with input type " + 
             iStream.toString().substring(iStream.toString().indexOf('$')+1, iStream.toString().indexOf('@')) + 
             " on the file " + f + " with " + j + " number of jumps gives length " + str_sum + 
-            " and that took " + (endTime - startTime) + " milliseconds");
-        return str_sum;
+            " and that took " + (endTime - startTime) + " milliseconds\n");
     }
 
-    private int randjump3(String f, int j) throws IOException {
+    private String randjump3(String f, int j) throws IOException {
         long startTime = System.currentTimeMillis();
         IStream.IStream3 iStream = new IStream.IStream3(B);
         iStream.open(f);
@@ -99,14 +93,13 @@ public class Experiment2 {
             str_sum += l;
         }
         long endTime = System.currentTimeMillis();
-        System.out.println("Experience2 with input type " + 
+        return ("Experience2 with input type " + 
             iStream.toString().substring(iStream.toString().indexOf('$')+1, iStream.toString().indexOf('@')) + 
-            " on the file " + f + " with " + j + " number of jumps gives length " + str_sum + 
-            " and that took " + (endTime - startTime) + " milliseconds");
-        return str_sum;
+            " on the file " + f + " with " + j + " number of jumps and buffer size B = " + B + 
+            " gives length " + str_sum + ", and that took " + (endTime - startTime) + " milliseconds\n");
     }
 
-    private int randjump4(String f, int j) throws IOException {
+    private String randjump4(String f, int j) throws IOException {
         long startTime = System.currentTimeMillis();
         IStream.IStream4 iStream = new IStream.IStream4(B);
         iStream.open(f);
@@ -121,11 +114,9 @@ public class Experiment2 {
             str_sum += l;
         }
         long endTime = System.currentTimeMillis();
-        System.out.println("Experience2 with input type " + 
+        return ("Experience2 with input type " + 
             iStream.toString().substring(iStream.toString().indexOf('$')+1, iStream.toString().indexOf('@')) + 
-            " on the file " + f + " with " + j + " number of jumps gives length " + str_sum + 
-            " and that took " + (endTime - startTime) + " milliseconds");
-        return str_sum;
+            " on the file " + f + " with " + j + " number of jumps and buffer size B = " + B + 
+            " gives length " + str_sum + ", and that took " + (endTime - startTime) + " milliseconds\n");
     }
 }
-
