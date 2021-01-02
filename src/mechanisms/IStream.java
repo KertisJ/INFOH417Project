@@ -1,3 +1,5 @@
+package mechanisms;
+
 import java.io.RandomAccessFile;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -99,6 +101,14 @@ public interface IStream {
             this.f = new RandomAccessFile(f_path, "r");
             this.br = new BufferedReader(new FileReader(this.f.getFD()), this.B);
         }
+        
+        // public String readln() throws IOException { // ** Add the buffer condition
+            // char[] chars = new char [this.B];
+            // int charRead = this.br.read(chars, this.position, this.B);
+            // String rd = new String(chars, 0, charRead);
+            // this.position =+ this.B;
+            // return rd;
+        // }
 
         public String readln() throws IOException { // ** Add the buffer condition
             StringBuilder b = new StringBuilder();
@@ -112,16 +122,6 @@ public interface IStream {
             return utf8 + EOL;
             // return b.toString();
         }
-
-        /**
-        public String readln() throws IOException { // ** Add the buffer condition
-            char[] chars = new char [this.B];
-            int charRead = this.br.read(chars, 0, this.B);
-            String rd = new String(chars, 0, charRead);
-            this.position =+ this.B;
-            return rd;
-        }
-        */
 
         public void seek(long pos) throws IOException {
             this.f.seek(pos);

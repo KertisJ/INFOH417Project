@@ -1,6 +1,9 @@
+package mechanisms;
+
 import java.io.*;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
+import java.nio.channels.FileChannel.MapMode;
 
 public interface OStream {
 
@@ -121,7 +124,6 @@ public interface OStream {
             }
 
             mappedb = (MappedByteBuffer) MappedByteBuffer.allocateDirect(this.B);
-            isOpened = true;
         }
 
         /**
@@ -158,13 +160,13 @@ public interface OStream {
          */
         @Override
         public void close() throws IOException {
-            if (fileChannel != null) {
-                MappedByteBuffer mb = fChannel.map(MapMode.READ_WRITE, position, mappedBuffer.position());
-                mappedBuffer.compact();
-                mb.put(mappedBuffer);
+            if (fChannel != null) {
+                MappedByteBuffer mb = fChannel.map(MapMode.READ_WRITE, position, mappedb.position());
+                this.mappedb.compact();
+                mb.put(mappedb);
                 mb.force();
-                fileChannel.close();
-                randomAccessFile.close();
+                fChannel.close();
+                f.close();
             }
         }
     }

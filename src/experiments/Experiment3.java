@@ -1,5 +1,9 @@
+package experiments;
+
+import mechanisms.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Experiment3 { // Combined Read and Write
@@ -313,6 +317,38 @@ public class Experiment3 { // Combined Read and Write
         }
         this.output = new OStream.OStream3(this.B_o);
         this.output.create(outPath);
+
+        /**
+        while (this.IList.size() > 0) {
+            List<IStream> fullRead = new ArrayList<>();
+            List<String> inp = Arrays.asList(new String[this.IList.size()]);
+            for (int i = 0; i < this.IList.size(); i++) {
+                IStream input = this.IList.get(i);
+                if (!input.end_of_stream()) {
+                    String in;
+                    if (inp.get(i) == null || inp.get(i).isEmpty()) {
+                        in = input.readln();
+                    } else {
+                        in = inp.get(i) + input.readln();
+                    }
+                    while (!in.contains("\n")){
+                        in = in + input.readln();
+                    }
+                    String inout = in.substring(0, in.indexOf('\n'));
+                    this.output.writeln(inout + '\n');
+                    String remain = in.substring(in.indexOf('\n') + 1);
+                    if (remain.length() > 0){
+                        in = remain;
+                        inp.set(i, in);
+                    }
+                } else {
+                    fullRead.add(input);
+                }
+            }
+            this.IList.removeAll(fullRead);
+        }
+        this.output.close();
+        */
 
         this.rrmerge();
         long endTime = System.currentTimeMillis();

@@ -1,3 +1,6 @@
+package experiments;
+
+import mechanisms.IStream;
 import java.io.IOException;
 
 public class Experiment1 { // Sequential reading
