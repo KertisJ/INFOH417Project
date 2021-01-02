@@ -27,6 +27,8 @@ public class callExp3 {
         String outputPath = "experiments_results/combinedRW";
         String outputP = "experiments_results/combinedRW_Test.csv";
         List<String> inputPaths = new ArrayList<>();
+        inputPaths.add("imdb/test1.csv");
+        inputPaths.add("imdb/test2.csv");
         // inputPaths.add("imdb/comp_cast_type.csv");
         // inputPaths.add("imdb/kind_type.csv");
         // inputPaths.add("imdb/company_type.csv");
@@ -35,10 +37,10 @@ public class callExp3 {
         // inputPaths.add("imdb/info_type.csv");
         // inputPaths.add("imdb/movie_link.csv");
         // inputPaths.add("imdb/complete_cast.csv");
-        inputPaths.add("imdb/keyword.csv");
+        // inputPaths.add("imdb/keyword.csv");
         // inputPaths.add("imdb/company_name.csv");
         // inputPaths.add("imdb/movie_info_idx.csv");
-        inputPaths.add("imdb/aka_title.csv");
+        // inputPaths.add("imdb/aka_title.csv");
         // inputPaths.add("imdb/aka_name.csv");
         // inputPaths.add("imdb/movie_companies.csv");
         // inputPaths.add("imdb/movie_keyword.csv");
@@ -56,17 +58,15 @@ public class callExp3 {
                 writer3.write("\t------------------------------------\n\n\n");
                 Experiment3 exp3 = new Experiment3();
                 writer3.write("Start of Experiment3 with our files.\n\n");
-                for (int i = 3; i < 5; i++) {
-                    for (int j = 3; j < 4; j++) {
+                for (int i = 2; i < 5; i++) {
+                    for (int j = 2; j < 5; j++) {
                         System.out.println("input " + i + " and output " + j);
                         if (j < 3) {
                             writer3.write(exp3.runExp3(i, j, inputPaths,
                                     outputPath + String.valueOf(i) + "_" + String.valueOf(j) + ".csv", inBS));
                         } else {
                             for (int k = 0; k < outputBufferSize.length; k++) {
-                                writer3.write(exp3.runExp3(i, j, inputPaths,
-                                        outputPath + String.valueOf(i) + "_" + String.valueOf(j) + ".csv", inBS,
-                                        outputBufferSize[k]));
+                                writer3.write(exp3.runExp3(i, j, inputPaths, outputPath + String.valueOf(i) + "_" + String.valueOf(j) + ".csv", inBS, outputBufferSize[k]));
                             }
                         }
                     }

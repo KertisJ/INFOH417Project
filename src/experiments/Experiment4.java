@@ -1,10 +1,7 @@
 package experiments;
 
 import mechanisms.*;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 public class Experiment4 {
     private final String OUTPUT_FOLDER = "experiments_results/subfile_experiment4/";
@@ -14,20 +11,19 @@ public class Experiment4 {
         this.extsort(f, k, M);
     }
 
-
     private void extsort(String f, int k, int M) throws IOException {
         // Priority queue bases on the k-th column
         // Custom comparator directly implemented in the queue 
-        Queue<String> extsortbuf = new PriorityQueue<>((e1, e2) -> {
-            String[] item1 = e1.split(",");
-            String[] item2 = e2.split(",");
+        Queue<String> sortQueue = new PriorityQueue<>((s1, s2) -> {
+            String[] subStr1 = s1.split(",");
+            String[] subStr2 = s2.split(",");
             String k1;
             String k2;
             try {
-                k1 = item1[k - 1].trim();
-                k2 = item2[k - 1].trim();
+                k1 = subStr1[k - 1].trim();
+                k2 = subStr2[k - 1].trim();
             } catch (ArrayIndexOutOfBoundsException e) {
-                throw new IllegalArgumentException("ERROR: k is greater than the number of columns");
+                throw new IllegalArgumentException("ERROR: k is greater than the number of " + f + " columns");
             }
             return k1.compareTo(k2);
         });
@@ -50,10 +46,10 @@ public class Experiment4 {
                 String outputFileName = OUTPUT_FOLDER + "outfile" + subfileCount + ".txt";
                 outputStream.create(outputFileName);
                 // do {
-                    // outputStream.writeln(extsortbuf.poll());
-                // } while (extsortbuf.poll() != null);
-                while (extsortbuf.size() > 0) {
-                    outputStream.writeln(extsortbuf.poll());
+                    // outputStream.writeln(sortQueue.poll());
+                // } while (sortQueue.poll() != null);
+                while (sortQueue.size() > 0) {
+                    outputStream.writeln(sortQueue.poll());
                 }
                 subfilesQueue.add(outputFileName);
                 outputStream.close();
@@ -61,15 +57,15 @@ public class Experiment4 {
                 memoryLeft = M;
                 subfileCount++;
             }
-            extsortbuf.add(line);
+            sortQueue.add(line);
             memoryLeft -= line.length();
         }
 
-        // This outputs the remaining lines of the buffer into another subfile
+        // Sort the remaining lines of the buffer into one last subfile
         String outputFileName = OUTPUT_FOLDER + "outfile" + subfileCount + ".txt";
         outputStream.create(outputFileName);
-        while (extsortbuf.size() > 0) {
-            outputStream.writeln(extsortbuf.poll());
+        while (sortQueue.size() > 0) {
+            outputStream.writeln(sortQueue.poll());
         }
         subfilesQueue.add(outputFileName);
         outputStream.close();
