@@ -1,10 +1,7 @@
 package experiments;
 
 import mechanisms.*;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 public class Experiment4 {
     private final String OUTPUT_FOLDER = "experiments_results/subfile_experiment4/";
@@ -13,7 +10,6 @@ public class Experiment4 {
     public void runExp4(String f, int k, int M, int d) throws IOException {
         this.extsort(f, k, M);
     }
-
 
     private void extsort(String f, int k, int M) throws IOException {
         // Priority queue bases on the k-th column
@@ -65,7 +61,7 @@ public class Experiment4 {
             memoryLeft -= line.length();
         }
 
-        // This outputs the remaining lines of the buffer into another subfile
+        // Sort the remaining lines of the buffer into one last subfile
         String outputFileName = OUTPUT_FOLDER + "outfile" + subfileCount + ".txt";
         outputStream.create(outputFileName);
         while (sortQueue.size() > 0) {
