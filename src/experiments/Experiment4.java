@@ -2,6 +2,8 @@ package experiments;
 
 import mechanisms.*;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.Comparator; 
 import java.util.PriorityQueue; 
@@ -11,13 +13,13 @@ public class Experiment4 {
     private final String OUTPUT_FOLDER = "experiments_results/subfile_experiment4/";
     private Queue<String> subfilesQueue = new LinkedList<>();
 
-    public void runExp4(String f, int k, int M, int d) throws IOException {
-        this.extsort(f, k, M, d);
+    public String runExp4(String f, int k, int M, int d) throws IOException {
+        return this.extsort(f, k, M, d);
     }
 
 
-    private void extsort(String f, int k, int M, int d) throws IOException {
-
+    private String extsort(String f, int k, int M, int d) throws IOException {
+        long startTime = System.currentTimeMillis();
         Comparator<String> compare = new Comparator<String>(){
             @Override
             public int compare(String s1, String s2) {
@@ -105,9 +107,12 @@ public class Experiment4 {
                 }                
             } while(!sortQueue.isEmpty());
             outputStream.close();
-            subfilesQueue.add(outputFileName);
-            
+            subfilesQueue.add(outputFileName);    
         }
+        Files.move(Paths.get(this.subfilesQueue.poll()), Paths.get(OUTPUT_FOLDER + "Multiwaymerge.csv"));
+        long endTime = System.currentTimeMillis();
+        return ("Experience4 merge our files with InputMechanism3 and OutputMechanism3 with M = "+M+", d = "
+            + d + ", k = " + k +" and it took " + (endTime - startTime) + " milliseconds.\n");
 
     }
 
