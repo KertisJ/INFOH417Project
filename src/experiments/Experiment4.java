@@ -19,7 +19,7 @@ public class Experiment4 {
     private void extsort(String f, int k, int M, int d) throws IOException {
         // Priority queue bases on the k-th column
         // Custom comparator directly implemented in the queue 
-        PriorityQueue<String> sortQueue = new PriorityQueue<>(new comparate());
+        PriorityQueue<String> sortQueue = new PriorityQueue<>(new comparate(k));
             // -> {
             // String[] subStr1 = s1.split(",");
             // String[] subStr2 = s2.split(",");
@@ -49,7 +49,7 @@ public class Experiment4 {
             line = inputStream.readln();
             //check if we have enough buffer for the next tuple or not
             if (memoryLeft < line.length()) {
-                String outputFileName = OUTPUT_FOLDER + "outfile" + subfileCount + ".txt";
+                String outputFileName = OUTPUT_FOLDER + "outfile" + subfileCount + ".csv";
                 outputStream.create(outputFileName);
                 // do {
                     // outputStream.writeln(sortQueue.poll());
@@ -68,9 +68,10 @@ public class Experiment4 {
         }
 
         // Sort the remaining lines of the buffer into one last subfile
-        String outputFileName = OUTPUT_FOLDER + "outfile" + subfileCount + ".txt";
+        String outputFileName = OUTPUT_FOLDER + "outfile" + subfileCount + ".csv";
+        subfileCount++;
         outputStream.create(outputFileName);
-        while (sortQueue.size() > 0) {
+        while (!sortQueue.isEmpty()) {
             outputStream.writeln(sortQueue.poll());
         }
         subfilesQueue.add(outputFileName);
@@ -78,33 +79,32 @@ public class Experiment4 {
 
         // Merge d files 
         sortQueue.clear();
-        List<IStream.IStream3> inputStreams = new ArrayList<IStream.IStream3>();
+        subfileCount = 1;
+        List<IStream.IStream3> inputStreams = new ArrayList<>();
         while (this.subfilesQueue.size() > 1) {
             int num = Math.min(d, subfilesQueue.size());
             for (int i = 0; i < num; i++){
                 inputStreams.add(new IStream.IStream3(100000));
                 inputStreams.get(i).open(subfilesQueue.poll());        
             }           
-            outputFileName = OUTPUT_FOLDER + "outfile" + subfileCount + ".txt";
+            outputFileName = OUTPUT_FOLDER + "d" + d + "outfile" + subfileCount + ".csv";
+            subfileCount++;
             outputStream.create(outputFileName);
             int i = 0;
             for(i = 0; i < num; i++) {
                 sortQueue.add(i + ";by;te;" + inputStreams.get(i).readln());
-                System.out.print(i + ";by;te;" + inputStreams.get(i).readln());
             }
             do {
                 String[] spitline = sortQueue.poll().split(";by;te;");
-                System.out.print(spitline[1]);
-                //outputStream.writeln(spitline[1]);
+                outputStream.writeln(spitline[1]);
                 int idfile = Integer.parseInt(spitline[0]);
-                System.out.println(idfile);
                 if (!inputStreams.get(idfile).end_of_stream()) {
-                    sortQueue.add(idfile + ";by;te"+ inputStreams.get(idfile).readln());
+                    sortQueue.add(idfile + ";by;te;"+ inputStreams.get(idfile).readln());
                 }                
-            } while(sortQueue.size() > 0);
+            } while(!sortQueue.isEmpty());
             outputStream.close();
             subfilesQueue.add(outputFileName);
-            subfileCount =+ 1;
+            
         }
 
     }
