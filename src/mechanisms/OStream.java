@@ -1,12 +1,8 @@
 package mechanisms;
 
 import java.io.*;
-import java.lang.ref.Cleaner;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
-import java.nio.channels.FileChannel.MapMode;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 public interface OStream {
 
@@ -95,7 +91,6 @@ public interface OStream {
 
         
         public void create(String f_path) throws IOException { //https://howtodoinjava.com/java/nio/memory-mapped-files-mappedbytebuffer/
-            //Files.deleteIfExists(Paths.get(f_path));
             this.f = new RandomAccessFile(f_path, "rw");
             try {
                 this.f.setLength(0);   
@@ -103,13 +98,7 @@ public interface OStream {
                 //TODO: handle exception
             } finally {
                 this.fChannel = this.f.getChannel();
-                // this.fChannel.truncate(0);
                 this.bCount = 0;
-                // long s = Math.min(this.B, this.l.length());
-                // this.position = this.bCount * this.B;
-                // this.mappedb = this.fChannel.map(FileChannel.MapMode.READ_WRITE, this.position, this.B);
-                // this.bCount += 1; 
-                // this.position = this.bCount * this.B;
                 this.map(); 
             }
         }
@@ -119,8 +108,7 @@ public interface OStream {
 
             for (char c : line.toCharArray()) {
                 writeChar(c); 
-            } // putChar(EOL); 
-            // this.l = 1;
+            } 
         }
         
         public void close() throws IOException {
@@ -130,32 +118,20 @@ public interface OStream {
             }
             this.mappedb.force();
             int len = this.bCount * this.B - this.mappedb.remaining();
-            // Cleaner cleaner = ((sun.nio.ch.DirectBuffer) mappedb).cleaner();
-            // if (cleaner != null) {
-                // cleaner.clean();
-            // }
             try {
                 this.fChannel.truncate(len);
             } catch (Exception e){
 
             }finally{        
-                //this.f.setLength(len);
                 this.fChannel.close();
                 this.mappedb.clear(); 
-                //this.mappedb = null;
-                //System.out.println(this.f.length() + " and length " + len); 
-                //this.fChannel.truncate(len); 
-                // this.f.setLength(len);
                 this.f.close();
             } 
         }
         
         private void map() throws IOException {
-            //long s = Math.min(this.B, this.l);
             this.position = this.bCount * this.B;
             this.mappedb = this.fChannel.map(FileChannel.MapMode.READ_WRITE, this.position, this.B);
-            //this.mappedb = this.fChannel.map(FileChannel.MapMode.READ_WRITE, this.position, s);
-            // this.position = this.bCount * s;
             this.bCount += 1;
         }
         

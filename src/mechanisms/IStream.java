@@ -34,9 +34,8 @@ public interface IStream {
                 c = (char) this.f.read();
                 b.append(c);
             } while (c != EOL);
-            String utf8 = new String(b.toString().getBytes("ISO-8859-1"), "UTF-8");
-            return utf8;
-            //return b.toString();
+            return new String(b.toString().getBytes("ISO-8859-1"), "UTF-8");
+            
         }
 
         public void seek(long pos) throws IOException {
@@ -66,7 +65,6 @@ public interface IStream {
         public String readln() throws IOException {
             String utf8 = new String(br.readLine().getBytes("ISO-8859-1"), "UTF-8");
             return utf8 + EOL;
-            //return br.readLine() + EOL;
         }
 
         public void seek(long pos) throws IOException {
@@ -90,8 +88,6 @@ public interface IStream {
         private RandomAccessFile f;
         private BufferedReader br;
         private int B;
-        private String remain ;
-        private int position = 0;
 
         public IStream3(int bufferSize) {
             this.B = bufferSize;
@@ -102,13 +98,6 @@ public interface IStream {
             this.br = new BufferedReader(new FileReader(this.f.getFD()), this.B);
         }
         
-        // public String readln() throws IOException { // ** Add the buffer condition
-            // char[] chars = new char [this.B];
-            // int charRead = this.br.read(chars, this.position, this.B);
-            // String rd = new String(chars, 0, charRead);
-            // this.position =+ this.B;
-            // return rd;
-        // }
 
         public String readln() throws IOException { // ** Add the buffer condition
             StringBuilder b = new StringBuilder();
@@ -119,9 +108,7 @@ public interface IStream {
                     b.append(c);
             } while (c != EOL);
             String utf8 = new String(b.toString().getBytes("ISO-8859-1"), "UTF-8");
-            // br.readLine();
             return utf8 + EOL;
-            // return b.toString();
         }
 
         public void seek(long pos) throws IOException {

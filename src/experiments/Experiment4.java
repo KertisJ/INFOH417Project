@@ -17,22 +17,27 @@ public class Experiment4 {
 
 
     private void extsort(String f, int k, int M, int d) throws IOException {
+
+        Comparator<String> compare = new Comparator<String>(){
+            @Override
+            public int compare(String s1, String s2) {
+                String[] subStr1 = s1.split(",");
+                String[] subStr2 = s2.split(",");
+                String k1;
+                String k2;
+                try {
+                    k1 = subStr1[k - 1].trim();
+                    k2 = subStr2[k - 1].trim();
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    throw new IllegalArgumentException("ERROR: k is greater than the number of columns");
+                }
+                return k1.compareTo(k2);
+            }
+        };
+        
         // Priority queue bases on the k-th column
         // Custom comparator directly implemented in the queue 
-        PriorityQueue<String> sortQueue = new PriorityQueue<>(new comparate(k));
-            // -> {
-            // String[] subStr1 = s1.split(",");
-            // String[] subStr2 = s2.split(",");
-            // String k1;
-            // String k2;
-            // try {
-                // k1 = subStr1[k - 1].trim();
-                // k2 = subStr2[k - 1].trim();
-            // } catch (ArrayIndexOutOfBoundsException e) {
-                // throw new IllegalArgumentException("ERROR: k is greater than the number of " + f + " columns");
-            // }
-            // return k1.compareTo(k2);
-        // });
+        PriorityQueue<String> sortQueue = new PriorityQueue<>(compare);
         
         // Best input mechanism
         IStream inputStream = new IStream.IStream3(10000);
@@ -51,9 +56,6 @@ public class Experiment4 {
             if (memoryLeft < line.length()) {
                 String outputFileName = OUTPUT_FOLDER + "outfile" + subfileCount + ".csv";
                 outputStream.create(outputFileName);
-                // do {
-                    // outputStream.writeln(sortQueue.poll());
-                // } while (sortQueue.poll() != null);
                 while (sortQueue.size() > 0) {
                     outputStream.writeln(sortQueue.poll());
                 }
