@@ -86,6 +86,8 @@ public interface OStream {
         private FileChannel fChannel;
         private int B;
         private int bCount;
+        private long position = 0;
+        private long l;
 
         public OStream4(int bufferSize) {
             this.B = bufferSize;
@@ -93,59 +95,80 @@ public interface OStream {
 
         
         public void create(String f_path) throws IOException { //https://howtodoinjava.com/java/nio/memory-mapped-files-mappedbytebuffer/
-            // Files.deleteIfExists(Paths.get(f_path));
+            //Files.deleteIfExists(Paths.get(f_path));
             this.f = new RandomAccessFile(f_path, "rw");
-            this.f.setLength(0);
-            this.fChannel = this.f.getChannel();
-            //this.fChannel.truncate(0);
-            this.bCount = 0;
-            this.map(this.B); 
+            try {
+                this.f.setLength(0);   
+            } catch (Exception e) {
+                //TODO: handle exception
+            } finally {
+                this.fChannel = this.f.getChannel();
+                // this.fChannel.truncate(0);
+                this.bCount = 0;
+                // long s = Math.min(this.B, this.l.length());
+                // this.position = this.bCount * this.B;
+                // this.mappedb = this.fChannel.map(FileChannel.MapMode.READ_WRITE, this.position, this.B);
+                // this.bCount += 1; 
+                // this.position = this.bCount * this.B;
+                this.map(); 
+            }
         }
         
         public void writeln(String line) throws IOException { 
+            this.l = line.length();
+
             for (char c : line.toCharArray()) {
-                putChar(c); 
+                writeChar(c); 
             } // putChar(EOL); 
+            // this.l = 1;
         }
         
         public void close() throws IOException {
-            // char x = ' ';
-            // while (this.mappedb.hasRemaini ng()) {
-                // 
-                // this.mappedb.put((byte) x);
-            // }
+            char x = ' ';
+            while (this.mappedb.hasRemaining()) {
+                this.mappedb.put((byte) x);
+            }
+            this.mappedb.force();
             int len = this.bCount * this.B - this.mappedb.remaining();
             // Cleaner cleaner = ((sun.nio.ch.DirectBuffer) mappedb).cleaner();
             // if (cleaner != null) {
                 // cleaner.clean();
             // }
+            try {
+                this.fChannel.truncate(len);
+            } catch (Exception e){
 
-            //this.fChannel.truncate(len); 
-            //this.f.setLength(len);
-            this.mappedb.clear(); 
-            //System.out.println(this.f.length() + " and length " + len); 
-            //this.fChannel.truncate(len);
-            this.fChannel.close(); 
-            
-            // this.f.setLength(len);
-            this.f.close(); 
+            }finally{        
+                //this.f.setLength(len);
+                this.fChannel.close();
+                this.mappedb.clear(); 
+                //this.mappedb = null;
+                //System.out.println(this.f.length() + " and length " + len); 
+                //this.fChannel.truncate(len); 
+                // this.f.setLength(len);
+                this.f.close();
+            } 
         }
         
-        private void map(int siz) throws IOException {
-            int position = this.bCount * siz;
-            this.mappedb = this.fChannel.map(FileChannel.MapMode.READ_WRITE, position, siz);
-            this.bCount += 1; 
+        private void map() throws IOException {
+            //long s = Math.min(this.B, this.l);
+            this.position = this.bCount * this.B;
+            this.mappedb = this.fChannel.map(FileChannel.MapMode.READ_WRITE, this.position, this.B);
+            //this.mappedb = this.fChannel.map(FileChannel.MapMode.READ_WRITE, this.position, s);
+            // this.position = this.bCount * s;
+            this.bCount += 1;
         }
         
-        private void putChar(char c) throws IOException {
-            if (!this.mappedb.hasRemaining()) { 
+        private void writeChar(char c) throws IOException {
+            if (!this.mappedb.hasRemaining()) {
                 try {
-                    this.map(this.B);
+                    this.map();
                 } catch (IOException e) { 
                     e.printStackTrace(); 
                 } 
             }
-            this.mappedb.put((byte) c); 
+            this.mappedb.put((byte) c);
+            this.l = this.l - 1;
         }
         
         }

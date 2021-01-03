@@ -55,6 +55,7 @@ public class callExp2 {
             Writer writer2 = new OutputStreamWriter(oex2, "UTF-8")) {
                 writer2.write("\tResults of experiment 2 on all files\n");
                 writer2.write("\t------------------------------------\n\n\n");
+                System.out.println("\nRunning Experiment2 ...");
                 Experiment2 exp2 = new Experiment2();
                 writer2.write("Start of Experiment2 with our files.\n\n");
                 for (int i = 0; i < inputPaths.size(); i++) {
@@ -72,5 +73,6 @@ public class callExp2 {
                     }
                 }
             }
+        System.out.println("Experiment2 completed.\nYou can find results in " + outExp2);
     }
 }

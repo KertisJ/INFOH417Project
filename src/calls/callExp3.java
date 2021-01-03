@@ -27,12 +27,10 @@ public class callExp3 {
         String outputPath = "experiments_results/combinedRW";
         String outputP = "experiments_results/combinedRW_Test.csv";
         List<String> inputPaths = new ArrayList<>();
-        inputPaths.add("imdb/test1.csv");
-        inputPaths.add("imdb/test2.csv");
-        // inputPaths.add("imdb/comp_cast_type.csv");
-        // inputPaths.add("imdb/kind_type.csv");
-        // inputPaths.add("imdb/company_type.csv");
-        // inputPaths.add("imdb/role_type.csv");
+        inputPaths.add("imdb/comp_cast_type.csv");
+        inputPaths.add("imdb/kind_type.csv");
+        inputPaths.add("imdb/company_type.csv");
+        inputPaths.add("imdb/role_type.csv");
         // inputPaths.add("imdb/link_type.csv");
         // inputPaths.add("imdb/info_type.csv");
         // inputPaths.add("imdb/movie_link.csv");
@@ -56,6 +54,7 @@ public class callExp3 {
             Writer writer3 = new OutputStreamWriter(oex3, "UTF-8")) {
                 writer3.write("\tResults of experiment 3 on all files\n");
                 writer3.write("\t------------------------------------\n\n\n");
+                System.out.println("\nRunning Experiment3 ...");
                 Experiment3 exp3 = new Experiment3();
                 writer3.write("Start of Experiment3 with our files.\n\n");
                 for (int i = 2; i < 5; i++) {
@@ -70,14 +69,8 @@ public class callExp3 {
                             }
                         }
                     }
-                    writer3.write('\n');
                 }
             }
-
-        // Experiment3 exp3 = new Experiment3(); for (int i = 1; i < 5; i++) { for (int
-        // j = 1; j < 5; j++) { exp3.runExp3(i, j, inputFilePaths, outputFilePath,
-        // inputBufferSize, outputBufferSize); } }
-        // Experiment3 exp = new Experiment3();
-        // System.out.println(exp.runExp3(4, 1, inputPaths, outputP, inBS, outBS));
+        System.out.println("Experiment3 completed.\nYou can find results in " + outExp3);
     }
 }

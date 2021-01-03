@@ -15,7 +15,7 @@ import java.util.List;
 
 public class callExp4 {
     public static void main(String[] args) throws IOException {
-        String inputPath = "imdb/movie_link.csv";
+        String inputPath = "imdb/link_type.csv";
         int[] inputBufferSize = { 50, 100, 500, 1000 };
         int[] outputBufferSize = { 50, 100, 500, 1000 };
         int[] numberOfJump = { 50, 100, 500, 1000 };
@@ -50,8 +50,8 @@ public class callExp4 {
         String outExp4 = "experiments_results/Experiment4_Result.txt";
 
         int k = 2;
-        int M = 10000;
-        int d = 50;
+        int M = 100;
+        int d = 2;
         Experiment4 exp4 = new Experiment4();
         exp4.runExp4(inputPath, k, M, d);
 

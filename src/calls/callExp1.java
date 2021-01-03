@@ -61,13 +61,12 @@ public class callExp1 {
             Writer writer1 = new OutputStreamWriter(oex1, "UTF-8")) {
                 writer1.write("\tResults of experiment 1 on all files\n");
                 writer1.write("\t------------------------------------\n\n\n");
-                System.out.println("Running Experiment1 ...");
+                System.out.println("\nRunning Experiment1 ...");
                 Experiment1 exp1 = new Experiment1();
                 writer1.write("Start of Experiment1 with our files.\n\n");
                 for (int i = 0; i < inputPaths.size(); i++) {
                     writer1.write("\nFile " + inputPaths.get(i) + " to experiment -\n");
                     BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(inputPaths.get(i)), "UTF-8")); 
-                    System.out.println("La taille de " + inputPaths.get(i) +  " est " + reader);
                     for (int iS = 2; iS < 5; iS++) {
                         if (iS < 3) {
                             writer1.write(exp1.runExp1(iS, inputPaths.get(i)));
@@ -79,5 +78,6 @@ public class callExp1 {
                     }
                 }
             }
+        System.out.println("Experiment1 completed.\nYou can find results in " + outExp1);
     }
 }

@@ -119,6 +119,7 @@ public interface IStream {
                     b.append(c);
             } while (c != EOL);
             String utf8 = new String(b.toString().getBytes("ISO-8859-1"), "UTF-8");
+            // br.readLine();
             return utf8 + EOL;
             // return b.toString();
         }
