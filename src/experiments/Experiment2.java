@@ -2,15 +2,15 @@ package experiments;
 
 import mechanisms.IStream;
 import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.util.Random;
+import java.util.List;
 
 public class Experiment2 {
-    private Random rand = new Random();
+    private List<Integer> positions;
     private int B;
 
-    public String runExp2(int IType, String f, int j, int Buf) throws IOException {
+    public String runExp2(int IType, String f, int j, int Buf, List<Integer> positions) throws IOException {
         this.B = Buf;
+        this.positions = positions;
         switch (IType) {
             case 1:
                 return randjump1(f, j);
@@ -39,8 +39,8 @@ public class Experiment2 {
     // buffer
     // So especially for input stream mechanisms 1 and 2
     // "exp.runExp2(inputStreamMechanism, filePath, numberOfJumps)";
-    public String runExp2(int IType, String f, int j) throws IOException {
-        return runExp2(IType, f, j, 0);
+    public String runExp2(int IType, String f, int j, List<Integer> positions) throws IOException {
+        return runExp2(IType, f, j, 0, positions);
     }
 
     private String randjump1(String f, int j) throws IOException {
@@ -48,12 +48,9 @@ public class Experiment2 {
         IStream.IStream1 iStream = new IStream.IStream1();
         iStream.open(f);
         int str_sum = 0;
-        RandomAccessFile file = new RandomAccessFile(f, "r");
-        long fLen = file.length();
-        file.close();
         for (int i = 0; i < j; i++) {
-            long p = (rand.nextInt((int) fLen));
-            iStream.seek(p);
+            //long p = (rand.nextInt((int) fLen));
+            iStream.seek(positions.get(j));
             int l = iStream.readln().length();
             str_sum += l;
         }
@@ -69,12 +66,9 @@ public class Experiment2 {
         IStream.IStream2 iStream = new IStream.IStream2();
         iStream.open(f);
         int str_sum = 0;
-        RandomAccessFile file = new RandomAccessFile(f, "r");
-        long fLen = file.length();
-        file.close();
         for (int i = 0; i < j; i++) {
-            long p = (rand.nextInt((int) fLen));
-            iStream.seek(p);
+            //long p = (rand.nextInt((int) fLen));
+            iStream.seek(positions.get(j));
             int l = iStream.readln().length();
             str_sum += l;
         }
@@ -90,12 +84,9 @@ public class Experiment2 {
         IStream.IStream3 iStream = new IStream.IStream3(B);
         iStream.open(f);
         int str_sum = 0;
-        RandomAccessFile file = new RandomAccessFile(f, "r");
-        long fLen = file.length();
-        file.close();
         for (int i = 0; i < j; i++) {
-            long p = (rand.nextInt((int) fLen));
-            iStream.seek(p);
+            //long p = (rand.nextInt((int) fLen));
+            iStream.seek(positions.get(j));
             int l = iStream.readln().length();
             str_sum += l;
         }
@@ -111,12 +102,9 @@ public class Experiment2 {
         IStream.IStream4 iStream = new IStream.IStream4(B);
         iStream.open(f);
         int str_sum = 0;
-        RandomAccessFile file = new RandomAccessFile(f, "r");
-        long fLen = file.length();
-        file.close();
         for (int i = 0; i < j; i++) {
-            long p = (rand.nextInt((int) fLen));
-            iStream.seek(p);
+            //long p = (rand.nextInt((int) fLen));
+            iStream.seek(positions.get(j));
             int l = iStream.readln().length();
             str_sum += l;
         }

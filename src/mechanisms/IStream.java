@@ -111,21 +111,13 @@ public interface IStream {
         // }
 
         public String readln() throws IOException { // ** Add the buffer condition
-            StringBuilder b = new StringBuilder();
-            char c;
-            do {
-                c = (char) this.br.read();
-                if (c != EOL)
-                    b.append(c);
-            } while (c != EOL);
-            String utf8 = new String(b.toString().getBytes("ISO-8859-1"), "UTF-8");
+            String utf8 = new String(br.readLine().getBytes("ISO-8859-1"), "UTF-8");
             return utf8 + EOL;
-            // return b.toString();
         }
 
         public void seek(long pos) throws IOException {
             this.f.seek(pos);
-            this.br = new BufferedReader(new FileReader(this.f.getFD()));
+            this.br = new BufferedReader(new FileReader(this.f.getFD()), this.B);
         }
 
         public boolean end_of_stream() throws IOException {
@@ -143,7 +135,7 @@ public interface IStream {
     public class IStream4 implements IStream { // Input with memory mapping
         private MappedByteBuffer Bb;
         private RandomAccessFile f;
-        private long B, nextPos;
+        private long B, nextPos, length;
 
         public IStream4(int bufferSize) {
             this.B = bufferSize;
@@ -151,6 +143,7 @@ public interface IStream {
 
         public void open(String f_path) throws IOException {
             this.f = new RandomAccessFile(f_path, "r");
+            this.length = f.length();
             this.map();
         }
 
@@ -170,11 +163,11 @@ public interface IStream {
         }
 
         public boolean end_of_stream() throws IOException {
-            return !this.Bb.hasRemaining() && this.nextPos >= this.f.length();
+            return !this.Bb.hasRemaining() && this.nextPos >= this.length;
         }
 
         private void map() throws IOException {
-            long size = Math.min(this.f.length() - this.nextPos, this.B);
+            long size = Math.min(this.length - this.nextPos, this.B);
             this.Bb = this.f.getChannel().map(FileChannel.MapMode.READ_ONLY, this.nextPos, size);
             this.nextPos += size;
         }

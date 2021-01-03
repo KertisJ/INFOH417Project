@@ -15,8 +15,8 @@ import java.util.List;
 public class callExp1 {
     public static void main(String[] args) throws IOException{
         String inputPath = "imdb/movie_link.csv";
-        int[] inputBufferSize = { 50, 100, 500, 1000 };
-        int[] outputBufferSize = { 50, 100, 500, 1000 };
+        int[] inputBufferSize = {500, 1000, 100000, 5000000};
+        int[] outputBufferSize = {500, 1000, 100000, 5000000};
         int[] numberOfJump = { 50, 100, 500, 1000 };
         int inBS = 100;
         int outBS = 100;
