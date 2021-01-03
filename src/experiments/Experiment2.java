@@ -52,7 +52,6 @@ public class Experiment2 {
             //long p = (rand.nextInt((int) fLen));
             iStream.seek(positions.get(i));
             int l = iStream.readln().length();
-            System.out.println(positions.get(i) + "longueur :" +l);
             str_sum += l;
         }
         long endTime = System.currentTimeMillis();

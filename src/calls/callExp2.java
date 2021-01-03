@@ -11,6 +11,8 @@ import java.io.OutputStreamWriter;
 import java.io.RandomAccessFile;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -20,8 +22,8 @@ public class callExp2 {
 
     public static void main(String[] args) throws IOException {
 
-        int[] inputBufferSize = { 50, 100, 500, 1000 };
-        int[] numberOfJump = { 50, 100, 500, 1000 };
+        int[] inputBufferSize = { 50, 100, 500, 100000 };
+        List<Integer> numberOfJump = new ArrayList<>(Arrays.asList(1000, 10000));
         List<String> inputPaths = new ArrayList<>();
 
         inputPaths.add("imdb/comp_cast_type.csv");
@@ -46,7 +48,8 @@ public class callExp2 {
         inputPaths.add("imdb/cast_info.csv");
 
         String outExp2 = "experiments_results/Experiment2_Result.txt";
-
+        Integer maxJumps =  Collections.max(numberOfJump);
+        System.out.println(maxJumps);
         
 
         try (OutputStream oex2 = new FileOutputStream(outExp2);
@@ -62,16 +65,16 @@ public class callExp2 {
                     file.close();
                     List<Integer> positions = new ArrayList<Integer>();
                     Random rand = new Random();
-                    for(int pp = 0; pp<1001;pp++){
+                    for(int pp = 0; pp<maxJumps+1;pp++){
                         positions.add(rand.nextInt((int)fLen));
                     }
                     for (int iS = 1; iS < 5; iS++) {
-                        for (int j = 0; j < numberOfJump.length; j++) {
+                        for (int j = 0; j < numberOfJump.size(); j++) {
                             if (iS < 3) {
-                                writer2.write(exp2.runExp2(iS, inputPaths.get(i), numberOfJump[j], positions));
+                                writer2.write(exp2.runExp2(iS, inputPaths.get(i), numberOfJump.get(j), positions));
                             } else {
                                 for (int k = 0; k < inputBufferSize.length; k++) {
-                                    writer2.write(exp2.runExp2(iS, inputPaths.get(i), numberOfJump[j], inputBufferSize[k], positions));
+                                    writer2.write(exp2.runExp2(iS, inputPaths.get(i), numberOfJump.get(j), inputBufferSize[k], positions));
                                 }
                             }
                         }

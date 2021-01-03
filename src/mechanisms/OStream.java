@@ -70,9 +70,7 @@ public interface OStream {
         }
 
         public void writeln(String str) throws IOException { // ** Add the buffer condition
-            for (char ch : str.toCharArray()) {
-                bw.write(ch);
-            }
+            bw.write(str);
         }
 
         public void close() throws IOException {

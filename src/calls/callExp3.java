@@ -16,19 +16,11 @@ import java.util.List;
 public class callExp3 {
     public static void main(String[] args) throws IOException {
 
-        String inputPath = "imdb/movie_link.csv";
-        int[] inputBufferSize = { 50, 100, 500, 1000 };
-        int[] outputBufferSize = { 50, 100, 500, 1000 };
-        int[] numberOfJump = { 50, 100, 500, 1000 };
-        int inBS = 100;
-        int outBS = 100;
-        int inputType = 1;
-        int outputType = 3;
+        int[] inputBufferSize = {1000, 10000, 100000};
+        int[] outputBufferSize = {1000, 10000, 100000};
         String outputPath = "experiments_results/combinedRW";
-        String outputP = "experiments_results/combinedRW_Test.csv";
+
         List<String> inputPaths = new ArrayList<>();
-        inputPaths.add("imdb/test1.csv");
-        inputPaths.add("imdb/test2.csv");
         // inputPaths.add("imdb/comp_cast_type.csv");
         // inputPaths.add("imdb/kind_type.csv");
         // inputPaths.add("imdb/company_type.csv");
@@ -45,33 +37,39 @@ public class callExp3 {
         // inputPaths.add("imdb/movie_companies.csv");
         // inputPaths.add("imdb/movie_keyword.csv");
         // inputPaths.add("imdb/title.csv");
-        // inputPaths.add("imdb/name.csv");
-        // inputPaths.add("imdb/person_info.csv");
-        // inputPaths.add("imdb/movie_info.csv");
-        // inputPaths.add("imdb/cast_info.csv");
+        inputPaths.add("imdb/name.csv");
+        inputPaths.add("imdb/person_info.csv");
+        inputPaths.add("imdb/movie_info.csv");
+        inputPaths.add("imdb/cast_info.csv");
 
         String outExp3 = "experiments_results/Experiment3_Result.txt";
 
         try (OutputStream oex3 = new FileOutputStream(outExp3);
-            Writer writer3 = new OutputStreamWriter(oex3, "UTF-8")) {
-                writer3.write("\tResults of experiment 3 on all files\n");
-                writer3.write("\t------------------------------------\n\n\n");
-                Experiment3 exp3 = new Experiment3();
-                writer3.write("Start of Experiment3 with our files.\n\n");
-                for (int i = 2; i < 5; i++) {
-                    for (int j = 2; j < 5; j++) {
-                        System.out.println("input " + i + " and output " + j);
-                        if (j < 3) {
-                            writer3.write(exp3.runExp3(i, j, inputPaths,
-                                    outputPath + String.valueOf(i) + "_" + String.valueOf(j) + ".csv", inBS));
-                        } else {
-                            for (int k = 0; k < outputBufferSize.length; k++) {
-                                writer3.write(exp3.runExp3(i, j, inputPaths, outputPath + String.valueOf(i) + "_" + String.valueOf(j) + ".csv", inBS, outputBufferSize[k]));
+                Writer writer3 = new OutputStreamWriter(oex3, "UTF-8")) {
+            writer3.write("\tResults of experiment 3 on all files\n");
+            writer3.write("\t------------------------------------\n\n\n");
+
+            Experiment3 exp = new Experiment3();
+            writer3.write("Start of Experiment3 with our files.\n\n");
+            
+            for (int j = 2; j < 4; j++) {
+                    if (j < 3) {
+                        for (int k = 0; k < inputBufferSize.length; k++) {
+                        writer3.write(exp.runExp3(j, inputPaths,
+                        outputPath + String.valueOf(3) + "_" + String.valueOf(j) + ".csv", inputBufferSize[k], 0));
+                        }
+                    }
+                    else {
+                        for (int k = 0; k < inputBufferSize.length; k++) {
+                            for (int l = 0; l < outputBufferSize.length; l++) {
+                                writer3.write(exp.runExp3(j, inputPaths,
+                                outputPath + String.valueOf(3) + "_" + String.valueOf(j) + ".csv", inputBufferSize[k],
+                                outputBufferSize[l]));
                             }
                         }
                     }
-                    writer3.write('\n');
-                }
+            }
+            writer3.write('\n');
             }
 
         // Experiment3 exp3 = new Experiment3(); for (int i = 1; i < 5; i++) { for (int
