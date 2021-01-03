@@ -50,8 +50,9 @@ public class Experiment2 {
         int str_sum = 0;
         for (int i = 0; i < j; i++) {
             //long p = (rand.nextInt((int) fLen));
-            iStream.seek(positions.get(j));
+            iStream.seek(positions.get(i));
             int l = iStream.readln().length();
+            System.out.println(positions.get(i) + "longueur :" +l);
             str_sum += l;
         }
         long endTime = System.currentTimeMillis();
@@ -68,7 +69,7 @@ public class Experiment2 {
         int str_sum = 0;
         for (int i = 0; i < j; i++) {
             //long p = (rand.nextInt((int) fLen));
-            iStream.seek(positions.get(j));
+            iStream.seek(positions.get(i));
             int l = iStream.readln().length();
             str_sum += l;
         }
@@ -86,7 +87,7 @@ public class Experiment2 {
         int str_sum = 0;
         for (int i = 0; i < j; i++) {
             //long p = (rand.nextInt((int) fLen));
-            iStream.seek(positions.get(j));
+            iStream.seek(positions.get(i));
             int l = iStream.readln().length();
             str_sum += l;
         }
@@ -104,7 +105,7 @@ public class Experiment2 {
         int str_sum = 0;
         for (int i = 0; i < j; i++) {
             //long p = (rand.nextInt((int) fLen));
-            iStream.seek(positions.get(j));
+            iStream.seek(positions.get(i));
             int l = iStream.readln().length();
             str_sum += l;
         }
